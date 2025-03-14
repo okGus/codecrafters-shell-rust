@@ -6,8 +6,8 @@ use std::io::{self, Write};
 
 static BUILTIN: Lazy<HashMap<&'static str, &'static str>> = Lazy::new(|| {
     HashMap::from([
-        ("exit", "exit is a builtin shell"),
-        ("echo", "echo is a builtin shell"),
+        ("exit", "exit is a shell builtin"),
+        ("echo", "echo is a shell builtin"),
     ])
 });
 
