@@ -2,7 +2,7 @@
 use std::io::{self, Write};
 
 fn main() {
-    
+    // `REPL` Read - Eval - Print - Loop
     loop {
         print!("$ ");
         io::stdout().flush().unwrap();
@@ -12,10 +12,16 @@ fn main() {
         stdin.read_line(&mut input).unwrap();
 
         let args: Vec<&str> = input.split(" ").collect();
+
+        // Builtin `exit`
         if args[0].trim() == "exit" && args[1].trim() == "0" {
             break;
         }
 
-        println!("{}: command not found", input.trim());
+        if args[0].trim() == "echo" {
+            print!("{}", args[1..].join(" "));
+        } else {
+            println!("{}: command not found", input.trim());
+        }
     }
 }
