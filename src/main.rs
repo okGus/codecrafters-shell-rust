@@ -1,5 +1,15 @@
+use std::collections::HashMap;
+use once_cell::sync::Lazy;
+
 #[allow(unused_imports)]
 use std::io::{self, Write};
+
+static BUILTIN: Lazy<HashMap<&'static str, &'static str>> = Lazy::new(|| {
+    HashMap::from([
+        ("exit", "exit is a builtin shell"),
+        ("echo", "echo is a builtin shell"),
+    ])
+});
 
 fn main() {
     // `REPL` Read - Eval - Print - Loop
@@ -17,11 +27,24 @@ fn main() {
         if args[0].trim() == "exit" && args[1].trim() == "0" {
             break;
         }
-
+        
+        // Builtin `echo`
         if args[0].trim() == "echo" {
             print!("{}", args[1..].join(" "));
-        } else {
-            println!("{}: command not found", input.trim());
+            continue;
+        } 
+        
+        // Builtin `type` builtins
+        if args[0].trim() == "type" {
+            let cmd: &str = args[1].trim();
+            if BUILTIN.contains_key(cmd) {
+                println!("{}", BUILTIN[cmd]);
+            } else {
+                println!("{}: command not found", cmd); // Default all commands invalid
+            }
+            continue;
         }
+        
+        println!("{}: command not found", input.trim()); // Default all commands invalid
     }
 }
