@@ -8,6 +8,7 @@ static BUILTIN: Lazy<HashMap<&'static str, &'static str>> = Lazy::new(|| {
     HashMap::from([
         ("exit", "exit is a shell builtin"),
         ("echo", "echo is a shell builtin"),
+        ("type", "type is a shell builtin"),
     ])
 });
 
