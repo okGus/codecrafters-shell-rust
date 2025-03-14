@@ -41,7 +41,7 @@ fn main() {
             if BUILTIN.contains_key(cmd) {
                 println!("{}", BUILTIN[cmd]);
             } else {
-                println!("{}: command not found", cmd); // Default all commands invalid
+                println!("{}: not found", cmd); // Type not found
             }
             continue;
         }
