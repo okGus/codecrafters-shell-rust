@@ -51,7 +51,7 @@ fn main() {
             // if PATH is provided, make fullpath and see if it exists
             else if !path.is_empty() {
                 let list_paths: Vec<&str> = path.split(":").collect();
-                println!("{:?}", list_paths);
+                //println!("{:?}", list_paths);
                 for dir in list_paths {
                     let full_path = Path::new(dir).join(cmd);
                     if  full_path.is_file() {
