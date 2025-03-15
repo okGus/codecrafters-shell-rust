@@ -1,5 +1,6 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, path::Path};
 use once_cell::sync::Lazy;
+use std::env;
 
 #[allow(unused_imports)]
 use std::io::{self, Write};
@@ -13,6 +14,12 @@ static BUILTIN: Lazy<HashMap<&'static str, &'static str>> = Lazy::new(|| {
 });
 
 fn main() {
+    let path = if let Ok(p) = env::var("PATH") {
+        p
+    } else {
+        String::new()
+    };
+
     // `REPL` Read - Eval - Print - Loop
     loop {
         print!("$ ");
@@ -40,6 +47,17 @@ fn main() {
             let cmd: &str = args[1].trim();
             if BUILTIN.contains_key(cmd) {
                 println!("{}", BUILTIN[cmd]);
+            }
+            // if PATH is provided, make fullpath and see if it exists
+            else if !path.is_empty() {
+                let list_paths: Vec<&str> = path.split(":").collect();
+                for dir in list_paths {
+                    let full_path = Path::new(dir).join(cmd);
+                    if  full_path.is_file() {
+                        println!("{} is {}", cmd, full_path.to_str().unwrap());
+                        break;
+                    }
+                }
             } else {
                 println!("{}: not found", cmd); // Type not found
             }
