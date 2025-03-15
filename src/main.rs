@@ -51,16 +51,16 @@ fn main() {
             // if PATH is provided, make fullpath and see if it exists
             else if !path.is_empty() {
                 let list_paths: Vec<&str> = path.split(":").collect();
+                println!("{:?}", list_paths);
                 for dir in list_paths {
                     let full_path = Path::new(dir).join(cmd);
                     if  full_path.is_file() {
                         println!("{} is {}", cmd, full_path.to_str().unwrap());
                         break;
-                    } else {
-                        println!("{}: not found", cmd); // Type not found
-                        break;
-                    }
+                    } 
                 }
+                println!("{}: not found", cmd); // Type not found
+                continue;
             } else {
                 println!("{}: not found", cmd); // Type not found
             }
