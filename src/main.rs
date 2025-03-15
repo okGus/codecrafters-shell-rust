@@ -56,6 +56,9 @@ fn main() {
                     if  full_path.is_file() {
                         println!("{} is {}", cmd, full_path.to_str().unwrap());
                         break;
+                    } else {
+                        println!("{}: not found", cmd); // Type not found
+                        break;
                     }
                 }
             } else {
