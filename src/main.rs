@@ -1,4 +1,4 @@
-use std::{collections::HashMap, path::Path, process::Command};
+use std::{collections::HashMap, path::{Path, PathBuf}, process::Command};
 use once_cell::sync::Lazy;
 use std::env;
 
@@ -36,11 +36,21 @@ fn handle_type_command(args: &[&str]) {
 
 fn handle_cd_command(p: &str) {
     let path = Path::new(p);
-     if path.exists() {
-         let _ = env::set_current_dir(path);
-     } else {
+    let target_path = if path.is_absolute() {
+        PathBuf::from(path)
+    } else {
+        env::current_dir().unwrap_or_default().join(path)
+    };
+
+    if let Ok(cononicalized) = target_path.canonicalize() {
+        if cononicalized.exists() {
+            let _ = env::set_current_dir(&cononicalized);
+        } else {
+            println!("cd: {}: No such file or directory", p);
+        }
+    } else {
         println!("cd: {}: No such file or directory", p);
-     }
+    }
 }
 
 fn parse(input: String) {
