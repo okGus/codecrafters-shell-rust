@@ -36,6 +36,7 @@ fn handle_type_command(args: &[&str]) {
 }
 
 fn handle_cd_command(p: &str) {
+    // This should also handle ~
     let path = Path::new(p);
     let target_path = if path.is_absolute() {
         PathBuf::from(path)
