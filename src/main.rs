@@ -36,13 +36,20 @@ fn handle_type_command(args: &[&str]) {
 }
 
 fn handle_cd_command(p: &str) {
-    // This should also handle ~
-    let path = Path::new(p);
-    let target_path = if path.is_absolute() {
-        PathBuf::from(path)
+    // Should handle `~`
+
+    // This should also handle relative, absolute, and ~
+    let target_path = if p.eq("~") {
+        dirs::home_dir().unwrap_or_else(|| PathBuf::from("/"))
     } else {
-        env::current_dir().unwrap_or_default().join(path)
-    };
+        let path = Path::new(p);
+        if path.is_absolute() {
+            PathBuf::from(path)
+        }
+        else {
+            env::current_dir().unwrap_or_default().join(path)
+        }
+    }; 
 
     if let Ok(cononicalized) = target_path.canonicalize() {
         if cononicalized.exists() {
