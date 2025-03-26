@@ -11,6 +11,7 @@ static BUILTIN: Lazy<HashMap<&'static str, &'static str>> = Lazy::new(|| {
         ("echo", "echo is a shell builtin"),
         ("type", "type is a shell builtin"),
         ("pwd", "pwd is a shell builtin"),
+        ("cd", "cd is a shell builtin"),
     ])
 });
 
@@ -74,6 +75,7 @@ fn parse(input: String) {
         "pwd" => {
             println!("{}", env::current_dir().unwrap().display())
         },
+        // Builtin `cd`
         "cd" if args.len() >= 1 => handle_cd_command(args[1]),
         // External commands
         cmd => {
@@ -94,7 +96,6 @@ fn parse(input: String) {
 }
 
 fn main() {
-
     // `REPL` Read - Eval - Print - Loop
     loop {
         print!("$ ");
