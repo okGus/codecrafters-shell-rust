@@ -1,4 +1,4 @@
-use std::{collections::HashMap, process::Command};
+use std::{collections::HashMap, path::Path, process::Command};
 use once_cell::sync::Lazy;
 use std::env;
 
@@ -34,6 +34,15 @@ fn handle_type_command(args: &[&str]) {
     println!("{}: not found", cmd);
 }
 
+fn handle_cd_command(p: &str) {
+    let path = Path::new(p);
+     if path.exists() {
+         let _ = env::set_current_dir(path);
+     } else {
+        println!("cd: {}: No such file or directory", p);
+     }
+}
+
 fn parse(input: String) {
     let args: Vec<&str> = input.split_whitespace().collect();
 
@@ -55,6 +64,7 @@ fn parse(input: String) {
         "pwd" => {
             println!("{}", env::current_dir().unwrap().display())
         },
+        "cd" if args.len() >= 1 => handle_cd_command(args[1]),
         // External commands
         cmd => {
             if let Some(path) = env::var_os("PATH") {
