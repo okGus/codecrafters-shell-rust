@@ -1,4 +1,4 @@
-use std::{collections::HashMap, path::Path, process::Command};
+use std::{collections::HashMap, process::Command};
 use once_cell::sync::Lazy;
 use std::env;
 
@@ -50,6 +50,11 @@ fn parse(input: String) {
         },
         // Builtin `type` builtins
         "type" if args.len() > 1 => handle_type_command(&args[1..]),
+        // Builtin `pwd`
+        "pwd" => {
+            println!("{}", env::current_dir().unwrap().display())
+        },
+        // External commands
         cmd => {
             if let Some(path) = env::var_os("PATH") {
                 for dir in env::split_paths(&path) {
