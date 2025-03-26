@@ -59,7 +59,17 @@ fn parse(input: String) {
             } else {
                 println!("{}: not found", cmd); // Type not found
             }
+        } else {
+            println!("Program was passed {} args (including program name).", args.len());
+            for (i, arg) in args.iter().enumerate() {
+                if i == 0 {
+                    println!("Arg #{} (program name): {}", i, arg);
+                } else {
+                    println!("Arg #{}: {}", i, arg)
+                }
+            }
         }
+
     } else {
         println!("{}: command not found", input.trim()); // Default all commands invalid
     }
