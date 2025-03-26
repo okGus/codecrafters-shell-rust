@@ -55,7 +55,7 @@ fn parse(input: String) {
                 for dir in env::split_paths(&path) {
                     let full_path = dir.join(cmd);
                     if full_path.exists() {
-                        if let Ok(output) = Command::new(&full_path).args(&args[1..]).output() {
+                        if let Ok(output) = Command::new(cmd).args(&args[1..]).output() {
                             print!("{}", String::from_utf8_lossy(&output.stdout));
                         }
                         return;
