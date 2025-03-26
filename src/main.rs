@@ -50,25 +50,19 @@ fn parse(input: String) {
         },
         // Builtin `type` builtins
         "type" if args.len() > 1 => handle_type_command(&args[1..]),
-        args_ => {
-            let (cmd, args) = if args_.contains(" ") {
-                args_.split_once(" ").unwrap()
-            } else {
-                (args_, "")
-            };
-
+        cmd => {
             if let Some(path) = env::var_os("PATH") {
                 for dir in env::split_paths(&path) {
                     let full_path = dir.join(cmd);
                     if full_path.exists() {
-                        let output = Command::new(cmd).args(args.split(" ")).output().unwrap();
-                        print!("{}", String::from_utf8_lossy(&output.stdout));
-                    }
-                    else {
-                        println!("{}: command not fonud", cmd);
+                        if let Ok(output) = Command::new(&full_path).args(&args[1..]).output() {
+                            print!("{}", String::from_utf8_lossy(&output.stdout));
+                        }
+                        return;
                     }
                 }
             }
+            println!("{}: command not fonud", cmd);
         },
     }
 }
