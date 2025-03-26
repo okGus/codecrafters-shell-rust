@@ -62,7 +62,7 @@ fn parse(input: String) {
                     }
                 }
             }
-            println!("{}: command not fonud", cmd);
+            println!("{}: command not found", cmd);
         },
     }
 }
