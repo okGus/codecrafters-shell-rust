@@ -13,35 +13,27 @@ static BUILTIN: Lazy<HashMap<&'static str, &'static str>> = Lazy::new(|| {
     ])
 });
 
-fn main() {
+fn parse(input: String) {
     let path = if let Ok(p) = env::var("PATH") {
         p
     } else {
         String::new()
     };
 
-    // `REPL` Read - Eval - Print - Loop
-    loop {
-        print!("$ ");
-        io::stdout().flush().unwrap();
-        // Wait for user input
-        let stdin = io::stdin();
-        let mut input = String::new();
-        stdin.read_line(&mut input).unwrap();
+    let args: Vec<&str> = input.split(" ").collect();
 
-        let args: Vec<&str> = input.split(" ").collect();
-
+    if args.len() > 1 {
         // Builtin `exit`
         if args[0].trim() == "exit" && args[1].trim() == "0" {
-            break;
+            std::process::exit(0)
         }
-        
+
         // Builtin `echo`
         if args[0].trim() == "echo" {
             print!("{}", args[1..].join(" "));
-            continue;
-        } 
-        
+            return;
+        }
+
         // Builtin `type` builtins
         if args[0].trim() == "type" {
             let cmd: &str = args[1].trim();
@@ -67,9 +59,23 @@ fn main() {
             } else {
                 println!("{}: not found", cmd); // Type not found
             }
-            continue;
         }
-        
+    } else {
         println!("{}: command not found", input.trim()); // Default all commands invalid
+    }
+}
+
+fn main() {
+
+    // `REPL` Read - Eval - Print - Loop
+    loop {
+        print!("$ ");
+        io::stdout().flush().unwrap();
+        // Wait for user input
+        let stdin = io::stdin();
+        let mut input = String::new();
+        stdin.read_line(&mut input).unwrap();
+        
+        parse(input.clone());
     }
 }
