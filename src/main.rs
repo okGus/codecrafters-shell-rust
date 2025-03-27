@@ -73,7 +73,7 @@ fn process_input(input: &str) -> Vec<String> {
         match c {
             '\'' => {
                 if in_quotes {
-                    current.push(c);
+                    //current.push(c); // if here it pushes `'`
                     result.push(std::mem::take(&mut current));
                 } else {
                     // its possible to have appostraphe - `it's`
@@ -82,7 +82,7 @@ fn process_input(input: &str) -> Vec<String> {
                         current.push(c);
                         continue;
                     }
-                    current.push(c);
+                    //current.push(c); // if here it pushes the `'`
                 }
                 in_quotes = !in_quotes;
             },
