@@ -54,10 +54,10 @@ fn handle_cd_command(p: &str) {
             let _ = env::set_current_dir(&cononicalized);
             return;
         } else {
-            println!("a cd: {}: No such file or directory", p);
+            println!("cd: {}: No such file or directory", p);
         }
     } else {
-        println!("b cd: {}: No such file or directory", p);
+        println!("cd: {}: No such file or directory", p);
     }
 }
 
