@@ -36,8 +36,6 @@ fn handle_type_command(args: &[&str]) {
 }
 
 fn handle_cd_command(p: &str) {
-    // Should handle `~`
-
     // This should also handle relative, absolute, and ~
     let target_path = if p.eq("~") {
         dirs::home_dir().unwrap_or_else(|| PathBuf::from("/"))
