@@ -68,12 +68,19 @@ fn process_input(input: &str) -> Vec<String> {
     let mut result: Vec<String> = Vec::new();
     let mut current = String::new();
     let mut in_quotes = false;
+    let chars: Vec<char> = input.chars().collect();
 
-    for c in input.chars() {
+    for i in 0..chars.len() {
+        let c = chars[i];
         match c {
             '\'' => {
                 if in_quotes {
                     //current.push(c); // if here it pushes `'`
+                    if i + 1 < chars.len() 
+                        && chars[i+1] == '\'' 
+                        || chars[i-1] == '\'' {
+                        continue;
+                    }
                     result.push(std::mem::take(&mut current));
                 } else {
                     // its possible to have appostraphe - `it's`
