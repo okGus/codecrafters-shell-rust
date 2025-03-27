@@ -52,17 +52,17 @@ fn handle_cd_command(p: &str) {
     if let Ok(cononicalized) = target_path.canonicalize() {
         if cononicalized.exists() {
             let _ = env::set_current_dir(&cononicalized);
-            return
+            return;
         } else {
-            println!("cd: {}: No such file or directory", p);
+            println!("a cd: {}: No such file or directory", p);
         }
     } else {
-        println!("cd: {}: No such file or directory", p);
+        println!("b cd: {}: No such file or directory", p);
     }
 }
 
 fn handle_echo_command(args: &[&str]) {
-    print!("{}", args.join(" "));
+    println!("{}", args.join(" "));
 }
 
 fn process_input(input: &str) -> Vec<String> {
@@ -111,16 +111,15 @@ fn process_input(input: &str) -> Vec<String> {
 
 fn parse(input: String) {
     let processed_input: Vec<String> = process_input(input.as_str());
-    let args: Vec<&str> = processed_input.iter().map(|s| s.as_str()).collect();
+    let args: Vec<&str> = processed_input.iter().map(|s| s.trim()).collect();
 
     if args.is_empty() {
         println!("{}: command not found", input.trim()); // Default all commands invalid
         return;
     }
-
     match args[0] {
         // Builtin `exit`
-        "exit" if args.get(1).map_or(false, |&arg| arg == "0") => std::process::exit(0),
+        "exit" if args.len() > 1 && args[1] == "0" => std::process::exit(0),
         // Builtin `echo`
         "echo" if args.len() > 1 => handle_echo_command(&args[1..]), 
         // Builtin `type` builtins
