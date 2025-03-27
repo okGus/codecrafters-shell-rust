@@ -60,8 +60,50 @@ fn handle_cd_command(p: &str) {
     }
 }
 
+fn handle_echo_command(args: &[&str]) {
+    print!("{}", args.join(" "));
+}
+
+fn process_input(input: &str) -> Vec<String> {
+    let mut result: Vec<String> = Vec::new();
+    let mut current = String::new();
+    let mut in_quotes = false;
+
+    for c in input.chars() {
+        match c {
+            '\'' => {
+                if in_quotes {
+                    current.push(c);
+                    result.push(std::mem::take(&mut current));
+                } else {
+                    // its possible to have appostraphe - `it's`
+                    // so current will not be empty but its not a `'word'`
+                    if !current.is_empty() {
+                        current.push(c);
+                        continue;
+                    }
+                    current.push(c);
+                }
+                in_quotes = !in_quotes;
+            },
+            ' ' if !in_quotes => {
+                if !current.is_empty() {
+                    result.push(std::mem::take(&mut current));
+                }
+            },
+            _ => current.push(c),
+        }
+    }
+    if !current.is_empty() {
+        result.push(current);
+    }
+
+    result
+}
+
 fn parse(input: String) {
-    let args: Vec<&str> = input.split_whitespace().collect();
+    let processed_input: Vec<String> = process_input(input.as_str());
+    let args: Vec<&str> = processed_input.iter().map(|s| s.as_str()).collect();
 
     if args.is_empty() {
         println!("{}: command not found", input.trim()); // Default all commands invalid
@@ -72,9 +114,7 @@ fn parse(input: String) {
         // Builtin `exit`
         "exit" if args.get(1).map_or(false, |&arg| arg == "0") => std::process::exit(0),
         // Builtin `echo`
-        "echo" => {
-            println!("{}", args[1..].join(" "));
-        },
+        "echo" if args.len() > 1 => handle_echo_command(&args[1..]), 
         // Builtin `type` builtins
         "type" if args.len() > 1 => handle_type_command(&args[1..]),
         // Builtin `pwd`
