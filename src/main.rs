@@ -76,10 +76,10 @@ fn process_input(input: &str) -> Vec<String> {
         match c {
             q if (q == '\"' || q == '\'') => {
                 if in_quotes {
-                    //current.push(c); // if here it pushes `'`
                     if i + 1 < chars.len() {
                         if q == '\'' && chars[i+1] != '\n' {
                             current.push(c);
+                            continue;
                         } else if chars[i+1] == '\'' 
                             || chars[i-1] == '\''
                             || chars[i+1] == '\"'
@@ -95,7 +95,6 @@ fn process_input(input: &str) -> Vec<String> {
                         current.push(c);
                         continue;
                     }
-                    //current.push(c); // if here it pushes the `'`
                 }
                 in_quotes = !in_quotes;
             },
