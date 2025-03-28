@@ -66,6 +66,10 @@ fn handle_echo_command(args: &[&str]) {
 }
 
 fn process_input(input: &str) -> Vec<String> {
+    // Handles input for different commands by
+    // processing each character
+    // from escaping `\'` or `\"` or `\ `
+    // to single, double quotes
     let mut result: Vec<String> = Vec::new();
     let mut current = String::new();
     let mut in_quotes = false;
