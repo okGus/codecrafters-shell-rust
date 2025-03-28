@@ -84,6 +84,9 @@ fn process_input(input: &str) -> Vec<String> {
                             || chars[i+1] == '\"'
                             || chars[i-1] == '\"' {
                             continue;
+                        } else {
+                            current.push(c);
+                            continue;
                         }
                     }
                     result.push(std::mem::take(&mut current));
