@@ -69,36 +69,25 @@ fn process_input(input: &str) -> Vec<String> {
     let mut result: Vec<String> = Vec::new();
     let mut current = String::new();
     let mut in_quotes = false;
+    let mut quote_char = '\0';
     let chars: Vec<char> = input.chars().collect();
-
-    for i in 0..chars.len() {
+    
+    let mut i = 0;
+    while i < chars.len() {
         let c = chars[i];
+
         match c {
-            q if (q == '\"' || q == '\'') => {
+            '\"' | '\'' => {
                 if in_quotes {
-                    if i + 1 < chars.len() {
-                        if q == '\'' && chars[i+1] == '\n' {
-                            continue;
-                        } else if chars[i+1] == '\'' 
-                            || chars[i-1] == '\''
-                            || chars[i+1] == '\"'
-                            || chars[i-1] == '\"' {
-                            continue;
-                        } else {
-                            current.push(c);
-                            continue;
-                        }
-                    }
-                    result.push(std::mem::take(&mut current));
-                } else {
-                    // its possible to have appostraphe - `it's`
-                    // so current will not be empty but its not a `'word'`
-                    if !current.is_empty() {
+                    if c == quote_char {
+                        in_quotes = false;
+                    } else {
                         current.push(c);
-                        continue;
                     }
+                } else {
+                    in_quotes = true;
+                    quote_char = c;
                 }
-                in_quotes = !in_quotes;
             },
             ' ' if !in_quotes => {
                 if !current.is_empty() {
@@ -107,7 +96,10 @@ fn process_input(input: &str) -> Vec<String> {
             },
             _ => current.push(c),
         }
+
+        i += 1;
     }
+
     if !current.is_empty() {
         result.push(current);
     }
