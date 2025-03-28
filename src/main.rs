@@ -74,15 +74,19 @@ fn process_input(input: &str) -> Vec<String> {
     for i in 0..chars.len() {
         let c = chars[i];
         match c {
-            '\"' | '\'' => {
+            q if (q == '\"' || q == '\'') => {
                 if in_quotes {
                     //current.push(c); // if here it pushes `'`
-                    if i + 1 < chars.len() 
-                        && chars[i+1] == '\'' 
-                        || chars[i-1] == '\''
-                        || chars[i+1] == '\"'
-                        || chars[i-1] == '\"' {
-                        continue;
+                    if i + 1 < chars.len() {
+                        if q == '\'' {
+                            current.push(c);
+                            continue;
+                        } else if chars[i+1] == '\'' 
+                            || chars[i-1] == '\''
+                            || chars[i+1] == '\"'
+                            || chars[i-1] == '\"' {
+                            continue;
+                        }
                     }
                     result.push(std::mem::take(&mut current));
                 } else {
