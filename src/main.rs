@@ -80,7 +80,6 @@ fn process_input(input: &str) -> Vec<String> {
                     if i + 1 < chars.len() {
                         if q == '\'' && chars[i+1] != '\n' {
                             current.push(c);
-                            continue;
                         } else if chars[i+1] == '\'' 
                             || chars[i-1] == '\''
                             || chars[i+1] == '\"'
