@@ -77,8 +77,7 @@ fn process_input(input: &str) -> Vec<String> {
             q if (q == '\"' || q == '\'') => {
                 if in_quotes {
                     if i + 1 < chars.len() {
-                        if q == '\'' && chars[i+1] != '\n' {
-                            current.push(c);
+                        if q == '\'' && chars[i+1] == '\n' {
                             continue;
                         } else if chars[i+1] == '\'' 
                             || chars[i-1] == '\''
