@@ -86,6 +86,10 @@ fn process_input(input: &str) -> Vec<String> {
                         current.push(c);
                     }
                 } else {
+                    if escape_char {
+                        current.push(c);
+                        escape_char = false;
+                    }
                     in_quotes = true;
                     quote_char = c;
                 }
