@@ -70,6 +70,7 @@ fn process_input(input: &str) -> Vec<String> {
     let mut current = String::new();
     let mut in_quotes = false;
     let mut quote_char = '\0';
+    let mut escape_char = false;
     let chars: Vec<char> = input.chars().collect();
     
     let mut i = 0;
@@ -89,9 +90,24 @@ fn process_input(input: &str) -> Vec<String> {
                     quote_char = c;
                 }
             },
-            ' ' if !in_quotes => {
-                if !current.is_empty() {
-                    result.push(std::mem::take(&mut current));
+            ' ' => {
+                if !in_quotes {
+                    if !current.is_empty() {
+                        result.push(std::mem::take(&mut current));
+                    }
+                    if escape_char {
+                        current.push(c);
+                        escape_char = false;
+                    }
+                } else {
+                    current.push(c);
+                }
+            },
+            '\\' => {
+                if !in_quotes {
+                    escape_char = true;
+                } else {
+                    current.push(c);
                 }
             },
             _ => current.push(c),
@@ -99,7 +115,6 @@ fn process_input(input: &str) -> Vec<String> {
 
         i += 1;
     }
-
     if !current.is_empty() {
         result.push(current);
     }
