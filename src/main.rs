@@ -74,53 +74,71 @@ fn process_input(input: &str) -> Vec<String> {
     let mut current = String::new();
     let mut in_quotes = false;
     let mut quote_char = '\0';
-    let mut escape_char = false;
+    let mut escape_next = false;
     let chars: Vec<char> = input.trim().chars().collect();
     
     let mut i = 0;
     while i < chars.len() {
         let c = chars[i];
 
-        if escape_char {
+        if escape_next {
             current.push(c);
-            escape_char = false;
+            escape_next = false;
+        } else if in_quotes {
+            // We are inside quotes
+            if c == quote_char {
+                // Found closing quote
+                in_quotes = false;
+            } else if quote_char == '\'' {
+                // Inside single quotes
+                current.push(c);
+            } else {
+                // Inside double quotes
+                if c == '\\' {
+                    // Check if backslash escapes anything
+                    // meaninful inside double quotes
+                    if i + 1 < chars.len() 
+                        && (chars[i + 1] == '\\'
+                            || chars[i + 1] == '"') {
+                            escape_next = true;
+                    } else {
+                        // Backslash doesn't escape anything
+                        // special here, treat it literally
+                        current.push(c);
+                    }
+                } else {
+                    // Any other character inside double quotes
+                    // is literal
+                    current.push(c);
+                }
+            }
         } else {
             match c {
                 '\\' => {
-                    if !in_quotes || quote_char == '"' {
-                        if i + 1 < chars.len() 
-                            && (chars[i + 1] == '\\' 
-                                || chars[i + 1] == ' '
-                                || chars[i + 1] == '"'
-                                || chars[i + 1] == '\'') {
-                                escape_char = true;
-                            } 
-                        else {
-                            current.push(c);
-                        }
+                    // Check if backslash escapes anything
+                    // meaningful outside of quotes
+                    if i + 1 < chars.len() 
+                        && (chars[i + 1] == '\\' 
+                            || chars[i + 1] == ' '
+                            || chars[i + 1] == '"'
+                            || chars[i + 1] == '\'') {
+                            escape_next = true;
                     } else {
+                        // Backslash doesn't escape anything
+                        // special here, treat it literally
                         current.push(c);
                     }
                 },
                 '"' | '\'' => {
-                    if in_quotes {
-                        if c == quote_char {
-                            in_quotes = false;
-                        } else {
-                            current.push(c);
-                        }
-                    } else {
-                        in_quotes = true;
-                        quote_char = c;
-                    }
+                    // Start quotes
+                    in_quotes = true;
+                    quote_char = c;
                 },
                 ' ' => {
-                    if !in_quotes {
-                        if !current.is_empty() {
-                            result.push(std::mem::take(&mut current));
-                        }
-                    } else {
-                        current.push(c);
+                    // Space is a seperator only when
+                    // not in quotes
+                    if !current.is_empty() {
+                        result.push(std::mem::take(&mut current));
                     }
                 },
                 _ => current.push(c),
@@ -132,7 +150,7 @@ fn process_input(input: &str) -> Vec<String> {
         //println!("result:{:?}\n", result);
         i += 1;
     } // end while
-    if escape_char {
+    if escape_next {
         current.push('\\');
     }
     //println!("After loop");
