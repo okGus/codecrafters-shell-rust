@@ -87,10 +87,12 @@ fn process_input(input: &str) -> Vec<String> {
         } else {
             match c {
                 '\\' => {
-                    if i + 1 < chars.len() && (chars[i + 1] == '"' || chars[i + 1] == '\'' || chars[i + 1] == '\\') {
+                    if i + 1 < chars.len() {
                         if quote_char == '"' {
+                            current.push(c);
+                        } else if chars[i + 1] == '"' || chars[i + 1] == '\'' || chars[i + 1] == '\\' {
+                            escape_char = true;
                         }
-                        escape_char = true;
                     } else {
                         current.push(c);
                     }
