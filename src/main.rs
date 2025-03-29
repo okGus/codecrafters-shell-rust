@@ -87,9 +87,9 @@ fn process_input(input: &str) -> Vec<String> {
         } else {
             match c {
                 '\\' => {
-                    if quote_char == '\'' && chars[i + 1] == '"' {
-                        current.push(c);
-                    }
+                    //if quote_char == '\'' && chars[i + 1] == '"' {
+                    //    current.push(c);
+                    //}
                     if i + 1 < chars.len() 
                         && (chars[i + 1] == '\\' 
                             || chars[i + 1] == ' '
