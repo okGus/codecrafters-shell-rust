@@ -84,10 +84,19 @@ fn process_input(input: &str) -> Vec<String> {
         match c {
             '\"' | '\'' => {
                 if in_quotes {
-                    if c == quote_char {
+                    if escape_char {
+                        current.push(c);
+                        escape_char = false;
+                    }
+                    else if c == quote_char {
                         in_quotes = false;
                     } else {
-                        current.push(c);
+                        if escape_char {
+                            current.push(c);
+                            escape_char = false;
+                        } else {
+                            current.push(c);
+                        }
                     }
                 } else {
                     if escape_char {
@@ -116,7 +125,12 @@ fn process_input(input: &str) -> Vec<String> {
                 if !in_quotes {
                     escape_char = true;
                 } else {
-                    current.push(c);
+                    if escape_char {
+                        current.push(c);
+                        escape_char = false;
+                    } else {
+                        escape_char = true;
+                    }
                 }
             },
             _ => current.push(c),
