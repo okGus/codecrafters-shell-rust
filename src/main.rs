@@ -87,7 +87,15 @@ fn process_input(input: &str) -> Vec<String> {
         } else {
             match c {
                 '\\' => {
-                    escape_char = true;
+                    if i + 1 < chars.len() 
+                        && (chars[i + 1] == '\\' 
+                            || chars[i + 1] == ' '
+                            || chars[i + 1] == '"'
+                            || chars[i + 1] == '\'') {
+                            escape_char = true;
+                    } else {
+                        current.push(c);
+                    }
                 },
                 '"' | '\'' => {
                     if in_quotes {
@@ -163,7 +171,7 @@ fn parse(input: String) {
                     let full_path = dir.join(cmd);
                     if full_path.exists() {
                         if let Ok(output) = Command::new(cmd).args(&args[1..]).output() {
-                            println!("{:?}", &args[1..]);
+                            //println!("{:?}", &args[1..]);
                             print!("{}", String::from_utf8_lossy(&output.stdout));
                         }
                         return;
