@@ -80,64 +80,44 @@ fn process_input(input: &str) -> Vec<String> {
     let mut i = 0;
     while i < chars.len() {
         let c = chars[i];
-
-        match c {
-            '\"' | '\'' => {
-                if in_quotes {
-                    if escape_char {
-                        current.push(c);
-                        escape_char = false;
-                    }
-                    else if c == quote_char {
-                        in_quotes = false;
-                    } else {
-                        if escape_char {
-                            current.push(c);
-                            escape_char = false;
+    
+        if escape_char {
+            current.push(c);
+            escape_char = false;
+        } else {
+            match c {
+                '\\' => escape_char = true,
+                '"' | '\'' => {
+                    if in_quotes {
+                        if c == quote_char {
+                            in_quotes = false;
                         } else {
                             current.push(c);
                         }
-                    }
-                } else {
-                    if escape_char {
-                        current.push(c);
-                        escape_char = false;
                     } else {
                         in_quotes = true;
                         quote_char = c;
                     }
-                }
-            },
-            ' ' => {
-                if !in_quotes {
-                    if !current.is_empty() {
-                        result.push(std::mem::take(&mut current));
-                    }
-                    if escape_char {
-                        current.push(c);
-                        escape_char = false;
-                    }
-                } else {
-                    current.push(c);
-                }
-            },
-            '\\' => {
-                if !in_quotes {
-                    escape_char = true;
-                } else {
-                    if escape_char {
-                        current.push(c);
-                        escape_char = false;
+                },
+                ' ' => {
+                    if !in_quotes {
+                        if !current.is_empty() {
+                            result.push(std::mem::take(&mut current));
+                        }
                     } else {
-                        escape_char = true;
+                        current.push(c);
                     }
-                }
-            },
-            _ => current.push(c),
-        }
+                },
+                _ => current.push(c),
+            } // end match
+        } // end else
 
         i += 1;
+    } // end while
+    if escape_char {
+        current.push('\\');
     }
+
     if !current.is_empty() {
         result.push(current);
     }
