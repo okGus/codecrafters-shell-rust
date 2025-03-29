@@ -75,7 +75,7 @@ fn process_input(input: &str) -> Vec<String> {
     let mut in_quotes = false;
     let mut quote_char = '\0';
     let mut escape_char = false;
-    let chars: Vec<char> = input.chars().collect();
+    let chars: Vec<char> = input.trim().chars().collect();
     
     let mut i = 0;
     while i < chars.len() {
