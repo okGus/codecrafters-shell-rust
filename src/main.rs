@@ -119,10 +119,10 @@ fn process_input(input: &str) -> Vec<String> {
                 _ => current.push(c),
             } // end match
         } // end else
-        println!("idx:{}", i);
-        println!("char:{}", c);
-        println!("current:{}", current);
-        println!("result:{:?}\n", result);
+        //println!("idx:{}", i);
+        //println!("char:{}", c);
+        //println!("current:{}", current);
+        //println!("result:{:?}\n", result);
         i += 1;
     } // end while
     if escape_char {
