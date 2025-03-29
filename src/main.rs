@@ -116,12 +116,13 @@ fn process_input(input: &str) -> Vec<String> {
             // We are not inside quotes
             match c {
                 '\\' => {
-                    // Check if backslash escapes anything
-                    // meaningful outside of quotes
-                    if i + 1 < chars.len() {
+                    // Outside quotes, backslash always escapes
+                    // the next character
+                    if i + 1 < chars.len() { // make sure there is a next character to escape
                         escape_next = true;
                     } else {
-
+                        // Input ends with a naked backslash
+                        // Shells often discard this
                     }
                 },
                 '"' | '\'' => {
