@@ -163,6 +163,7 @@ fn parse(input: String) {
                     let full_path = dir.join(cmd);
                     if full_path.exists() {
                         if let Ok(output) = Command::new(cmd).args(&args[1..]).output() {
+                            println!("{:?}", &args[1..]);
                             print!("{}", String::from_utf8_lossy(&output.stdout));
                         }
                         return;
