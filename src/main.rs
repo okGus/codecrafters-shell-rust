@@ -82,7 +82,7 @@ fn process_input(input: &str) -> Vec<String> {
         let c = chars[i];
 
         if escape_char {
-            if in_quotes && (c == quote_char) {
+            if in_quotes && c == quote_char {
                 current.push(c);
             } else {
                 current.push('\\');
