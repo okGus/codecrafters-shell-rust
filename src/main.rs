@@ -139,7 +139,7 @@ fn process_input(input: &str) -> Vec<String> {
     //println!("current:{}", current);
     //println!("result:{:?}\n", result);
     if !current.is_empty() {
-        result.push(current.to_string());
+        result.push(current);
         //result.push(std::mem::take(&mut current));
     }
 
