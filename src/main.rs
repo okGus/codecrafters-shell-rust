@@ -113,20 +113,15 @@ fn process_input(input: &str) -> Vec<String> {
                 }
             }
         } else {
+            // We are not inside quotes
             match c {
                 '\\' => {
                     // Check if backslash escapes anything
                     // meaningful outside of quotes
-                    if i + 1 < chars.len() 
-                        && (chars[i + 1] == '\\' 
-                            || chars[i + 1] == ' '
-                            || chars[i + 1] == '"'
-                            || chars[i + 1] == '\'') {
-                            escape_next = true;
+                    if i + 1 < chars.len() {
+                        escape_next = true;
                     } else {
-                        // Backslash doesn't escape anything
-                        // special here, treat it literally
-                        current.push(c);
+
                     }
                 },
                 '"' | '\'' => {
