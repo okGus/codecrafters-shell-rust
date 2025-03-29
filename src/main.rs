@@ -80,14 +80,14 @@ fn process_input(input: &str) -> Vec<String> {
     let mut i = 0;
     while i < chars.len() {
         let c = chars[i];
-    
+
         if escape_char {
             current.push(c);
             escape_char = false;
         } else {
             match c {
                 '\\' => {
-                    if i + 1 < chars.len() && (chars[i + 1] == '"' || chars[i + 1] == '\'') {
+                    if i + 1 < chars.len() && (chars[i + 1] == '"' || chars[i + 1] == '\'' || chars[i + 1] == '\\') {
                         escape_char = true;
                     } else {
                         current.push(c);
@@ -117,7 +117,10 @@ fn process_input(input: &str) -> Vec<String> {
                 _ => current.push(c),
             } // end match
         } // end else
-
+        //println!("idx:{}", i);
+        //println!("char:{}", c);
+        //println!("current:{}", current);
+        //println!("result:{:?}\n", result);
         i += 1;
     } // end while
     if escape_char {
