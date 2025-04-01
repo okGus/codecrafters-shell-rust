@@ -140,25 +140,15 @@ fn process_input(input: &str) -> Vec<String> {
                 _ => current.push(c),
             } // end match
         } // end else
-        //println!("idx:{}", i);
-        //println!("char:{}", c);
-        //println!("current:{}", current);
-        //println!("result:{:?}\n", result);
         i += 1;
     } // end while
     if escape_next {
         current.push('\\');
     }
-    //println!("After loop");
-    //println!("current:{}", current);
-    //println!("result:{:?}\n", result);
     if !current.is_empty() {
         result.push(current);
-        //result.push(std::mem::take(&mut current));
     }
 
-    //println!("current:{}", current);
-    //println!("result:{:?}\n", result);
     result
 }
 
