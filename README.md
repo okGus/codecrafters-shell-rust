@@ -2,6 +2,11 @@
 
 [![progress-banner](https://backend.codecrafters.io/progress/shell/0b9a4e7b-05d4-48e6-b320-bc1f13de461d)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
 
+**Note**: If you're viewing this repo on GitHub, head over to
+[codecrafters.io](https://codecrafters.io) to try the challenge.
+
+## Description
+
 This program is a shell implementation built with Rust. It provides a basic command-line interface, allowing you to execute commands like `exit`, `echo`, `type`, `pwd`, and `cd`.
 
 ## Features
