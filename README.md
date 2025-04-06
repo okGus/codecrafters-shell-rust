@@ -1,35 +1,47 @@
+# Rust Shell
+
 [![progress-banner](https://backend.codecrafters.io/progress/shell/0b9a4e7b-05d4-48e6-b320-bc1f13de461d)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
 
-This is a starting point for Rust solutions to the
-["Build Your Own Shell" Challenge](https://app.codecrafters.io/courses/shell/overview).
+This program is a shell implementation built with Rust. It provides a basic command-line interface, allowing you to execute commands like `exit`, `echo`, `type`, `pwd`, and `cd`.
 
-In this challenge, you'll build your own POSIX compliant shell that's capable of
-interpreting shell commands, running external programs and builtin commands like
-cd, pwd, echo and more. Along the way, you'll learn about shell command parsing,
-REPLs, builtin commands, and more.
+## Features
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+*   **Basic Command Execution:** Supports executing built-in commands and external programs.
+*   **Built-in Commands:**
+    *   `exit`: Exits the shell.
+    *   `echo`: Prints arguments to standard output.
+    *   `type`: Displays information about a command.
+    *   `pwd`: Prints the current working directory.
+    *   `cd`: Changes the current working directory.
+*   **Command Parsing:**  Handles spaces, quotes, and backslashes within commands.
+*   **Path Resolution:** Uses the `PATH` environment variable to locate external commands.
 
-# Passing the first stage
+## Installation
 
-The entry point for your `shell` implementation is in `src/main.rs`. Study and
-uncomment the relevant code, and push your changes to pass the first stage:
+1.  Clone this repository: `git clone [repository_url]`
+2.  Navigate to the project directory: `cd [project_directory]`
+3.  Run the program: `./your_program.sh`
 
-```sh
-git commit -am "pass 1st stage" # any msg
-git push origin master
+## Usage
+
+The program is interactive. You can type commands and press Enter to execute them.
+
+**Example:**
+
+```
+$ pwd
+/home/user
+$ echo "Hello, world!"
+Hello, world!
+$ cd ..
+$ pwd
+/home
+$ exit
 ```
 
-Time to move on to the next stage!
+## Installation
 
-# Stage 2 & beyond
-
-Note: This section is for stages 2 and beyond.
-
-1. Ensure you have `cargo (1.82)` installed locally
-1. Run `./your_program.sh` to run your program, which is implemented in
-   `src/main.rs`. This command compiles your Rust project, so it might be slow
-   the first time you run it. Subsequent runs will be fast.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+1.  Ensure you have Rust and Cargo installed. You can find instructions on the official Rust website: [https://www.rust-lang.org/](https://www.rust-lang.org/)
+2.  Clone this repository: `git clone [repository_url]`
+3.  Navigate to the project directory: `cd [project_directory]`
+4.  Run the program: `./your_program.sh`
